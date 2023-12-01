@@ -3,16 +3,35 @@ import ehMaiorDeIdade from "./valida-idade.js";
 
 // Pega todos os campos que contem o atributo [required]
 const camposDoFormulario = document.querySelectorAll("[required]");
+// Pega o atributo [data-formulario] do formulario
+const formulario = document.querySelector("[data-formulario]");
 
+// Recebe um "Ouvinte de Evento" que quando clicar no submit do formulario vai enviar dados para o localStorage
+formulario.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const listaRespostas = {
+        "nome": e.target.elements["nome"].value,
+        "email": e.target.elements["email"].value,
+        "rg": e.target.elements["rg"].value,
+        "cpf": e.target.elements["cpf"].value,
+        "aniversario": e.target.elements["aniversario"].value,
+    }
+
+    localStorage.setItem("cadastro", JSON.stringify(listaRespostas));
+
+    window.location.href = './abrir-conta-form-2.html';
+})
 
 // Para cada campo do formulario ...
 camposDoFormulario.forEach((campo) => {
-    // Recebe um "Ouvidor de Evento" que quando deselecionar campo contem o atributo [required] vai executar a função verificaCampo(campo)
+    // Recebe um "Ouvinte de Evento" que quando deselecionar campo contem o atributo [required] vai executar a função verificaCampo(campo)
     campo.addEventListener("blur", () => verificaCampo(campo));
-    // Recebe um "Ouvidor de Evento" que quando clicar em "submit" não vai mais aparecer mensagem de algum erro
+    // Recebe um "Ouvinte de Evento" que quando clicar em "submit" não vai mais aparecer mensagem de algum erro
     campo.addEventListener("invalid", evento => evento.preventDefault());
 })
 
+// Variavel dos tipos de erro que pode acontecer no preenchimento do formulario
 const tiposDeErro = [
     'valueMissing',     // erro que aparece: se o campo não for preenchido
     'typeMismatch',     // se esta inserido por exemplo uma letra na onde deveria ser numero
@@ -21,6 +40,7 @@ const tiposDeErro = [
     'customError'       // se não cumprir com as validações que nos criamos.
 ]
 
+// Variavel que contem uma mensagem para cada tipo de erro que acontecer no formulario
 const mensagens = {
     nome: {
         valueMissing: "O campo de nome não pode estar vazio.",
@@ -52,6 +72,7 @@ const mensagens = {
     }
 }
 
+// Função que verifica os campos do formulario
 function verificaCampo(campo) {
     let mensagem = "";
     campo.setCustomValidity('');
