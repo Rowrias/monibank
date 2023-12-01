@@ -4,15 +4,11 @@ export default function ehUmCPF(campo) {
 
     // Se as qualquer dessas funções der "true"...
     if (validaNumerosRepetidos(cpf) || validaPrimeiroDigito(cpf) || validaSegundoDigito(cpf)) {
-        console.log("Esse cpf não existe!")
-
-    // Se for "false"...
-    } else {
-        console.log("Existe!");
+       campo.setCustomValidity('Esse cpf não é válido')
     }
 }
 
-// Função que verifica se a pessoa repeitiu esses numeros
+// Função que verifica se a pessoa repitiu esses numeros
 function validaNumerosRepetidos(cpf) {
     const numeroRepetidos = [
         '00000000000',
