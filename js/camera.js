@@ -4,6 +4,7 @@ const video = document.querySelector("[data-video]");
 const botaoTirarFoto = document.querySelector("[data-tirar-foto]");
 const canvas = document.querySelector("[data-video-canvas]");
 const mensagem = document.querySelector("[data-mensagem]");
+const botaoEnviarFoto = document.querySelector("[data-enviar]");
 
 let imagemURL = "";
 
@@ -37,4 +38,21 @@ botaoTirarFoto.addEventListener("click", function() {
     campoCamera.style.display = "none";
     // Coloca um estilo "block" no campoMensagem (coloca a mensagem)
     mensagem.style.display = "block";
+})
+
+// Adiciona um ouvinte de eventos no botaoEnviarFoto que vai aguardar um click
+botaoEnviarFoto.addEventListener("click", () => {
+    // variavel que acessa a chave cadastro no localStorage
+    const receberDadosExistentes = localStorage.getItem("cadastro");
+    // variavel que converte o arquivo json para visualizar como objeto no javascript
+    const converteRetorno = JSON.parse(receberDadosExistentes);
+
+    // Cria um atributo imagem la dentro que recebe a "imagemURL" que foi tirada
+    converteRetorno.imagem = imagemURL;
+
+    // Coloca na chave cadastro do localStorage as informações atualizadas e transforma os arquivos em JSON
+    localStorage.setItem('cadastro', JSON.stringify(converteRetorno));
+
+    // Envia nos para a "pagina numero 3"
+    window.location.href = "./abrir-conta-form-3.html";
 })
